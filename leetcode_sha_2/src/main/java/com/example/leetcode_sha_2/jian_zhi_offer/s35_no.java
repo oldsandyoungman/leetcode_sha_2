@@ -4,7 +4,7 @@ import com.example.leetcode_sha_2.class_sha.Node;
 
 import java.util.HashMap;
 
-public class s35 {
+public class s35_no {
 
     public static void main(String[] args) {
         Node a = new Node(7);

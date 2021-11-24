@@ -5,7 +5,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Stack;
 
-public class s09 {
+public class s09_no {
 
     public static void main(String[] args) {
         CQueue obj = new CQueue();

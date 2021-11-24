@@ -2,7 +2,7 @@ package com.example.leetcode_sha_2.jian_zhi_offer;
 
 import java.util.ArrayDeque;
 
-public class s30 {
+public class s30_no {
 
     public static void main(String[] args) {
         MinStack minStack = new MinStack();
