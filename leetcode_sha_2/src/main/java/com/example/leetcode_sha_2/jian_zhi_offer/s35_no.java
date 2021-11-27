@@ -76,7 +76,7 @@ public class s35_no {
 
 
 //    答案写的方法
-    public static Node copyRandomList(Node head) {
+    public static Node copyRandomList3(Node head) {
         if (head==null){
             return null;
         }
@@ -106,6 +106,36 @@ public class s35_no {
 
 
 
+
+    }
+
+    public static Node copyRandomList(Node head) {
+
+        if(head==null){
+            return null;
+        }
+        Node new_head = new Node(head.val);
+        Node cur = head;
+        Node new_cur = new_head;
+
+        HashMap<Node, Node> m = new HashMap<>();
+
+        while(cur.next!=null){
+            m.put(cur, new_cur);
+            new_cur.next = new Node(cur.next.val);
+            cur = cur.next;
+            new_cur = new_cur.next;
+        }
+
+        cur = head;
+        new_cur = new_head;
+        while(cur!=null){
+            new_cur.random = m.get(cur.random);
+            cur = cur.next;
+            new_cur = new_cur.next;
+        }
+
+        return new_head;
 
     }
 
