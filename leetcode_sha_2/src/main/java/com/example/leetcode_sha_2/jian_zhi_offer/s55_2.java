@@ -1,4 +1,4 @@
-package com.example.leetcode_sha_2.leetcode_origin;
+package com.example.leetcode_sha_2.jian_zhi_offer;
 
 import com.example.leetcode_sha_2.class_sha.TreeNode;
 
