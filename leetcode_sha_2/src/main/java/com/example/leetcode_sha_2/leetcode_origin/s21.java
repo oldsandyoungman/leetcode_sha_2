@@ -17,7 +17,8 @@ public class s21 {
         b.next = d;
         d.next = f;
 
-        System.out.println(mergeTwoLists(a,b));
+//        System.out.println(mergeTwoLists(a,b));
+        System.out.println(mergeTwoLists2(a,b));
 
     }
 
@@ -80,5 +81,34 @@ public class s21 {
 //        }
 //        return dum.next;
 //    }
+
+
+
+    public static ListNode mergeTwoLists2(ListNode list1, ListNode list2) {
+        ListNode dum = new ListNode(0);
+        ListNode cur = dum;
+
+        while(list1!=null && list2!=null){
+            if(list1.val>list2.val){
+                cur.next = list2;
+                cur = cur.next;
+                list2 = list2.next;
+            }else{
+                cur.next = list1;
+                cur = cur.next;
+                list1 = list1.next;
+            }
+        }
+
+        if(list1==null){
+            cur.next = list2;
+        }else{
+            cur.next = list1;
+        }
+
+        return dum.next;
+
+
+    }
 
 }
