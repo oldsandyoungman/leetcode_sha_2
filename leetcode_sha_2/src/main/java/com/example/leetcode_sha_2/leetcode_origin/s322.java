@@ -3,12 +3,13 @@ package com.example.leetcode_sha_2.leetcode_origin;
 public class s322 {
 
     public static void main(String[] args) {
-//        int[] coins = {1, 2, 5};
-        int[] coins = {2};
-//        int amount = 11;
-        int amount = 3;
+        int[] coins = {1, 2, 5};
+//        int[] coins = {2};
+        int amount = 11;
+//        int amount = 3;
 
-        System.out.println(coinChange(coins, amount));
+//        System.out.println(coinChange(coins, amount));
+        System.out.println(coinChange3(coins, amount));
     }
 
 //    给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。
@@ -21,6 +22,21 @@ public class s322 {
 //    链接：https://leetcode-cn.com/problems/coin-change
 //    著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
+
+
+
+    public static int coinChange3(int[] coins, int amount) {
+        int[] dp = new int[amount+1];
+        dp[0] = 1;
+        for(int i=1; i<=amount; i++){
+            for(int coin : coins){
+                if(coin<=i){
+                    dp[i] += dp[i-coin];
+                }
+            }
+        }
+        return dp[amount];
+    }
 
 
 //    dp table 方法
