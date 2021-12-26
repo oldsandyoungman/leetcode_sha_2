@@ -1,5 +1,7 @@
 package com.example.leetcode_sha_2.leetcode_origin;
 
+import java.util.Arrays;
+
 public class s322 {
 
     public static void main(String[] args) {
@@ -27,15 +29,18 @@ public class s322 {
 
     public static int coinChange3(int[] coins, int amount) {
         int[] dp = new int[amount+1];
-        dp[0] = 1;
+        Arrays.fill(dp, amount+1);
+        dp[0] = 0;
         for(int i=1; i<=amount; i++){
+            int res = amount+1;
             for(int coin : coins){
                 if(coin<=i){
-                    dp[i] += dp[i-coin];
+                    res = Math.min(res, dp[i-coin]+1);
                 }
             }
+            dp[i] = res;
         }
-        return dp[amount];
+        return dp[amount]==(amount+1)?-1:dp[amount];
     }
 
 
