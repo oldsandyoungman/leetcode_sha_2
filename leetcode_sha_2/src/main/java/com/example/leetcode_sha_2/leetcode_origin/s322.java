@@ -1,6 +1,8 @@
 package com.example.leetcode_sha_2.leetcode_origin;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class s322 {
 
@@ -12,6 +14,14 @@ public class s322 {
 
 //        System.out.println(coinChange(coins, amount));
         System.out.println(coinChange3(coins, amount));
+
+
+//        List<String> panel = new LinkedList<>();
+//        String a = "111";
+//        panel.add(a);
+//        String z = panel.get(0);
+//        z.charAt()
+
     }
 
 //    给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。
