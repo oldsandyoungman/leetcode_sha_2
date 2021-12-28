@@ -5,12 +5,15 @@ import java.util.*;
 public class s1631 {
 
     public static void main(String[] args) {
-        int[][] heights = {
-                {1,2,1,1,1},
-                {1,2,1,2,1},
-                {1,2,1,2,1},
-                {1,2,1,2,1},
-                {1,1,1,2,1}};
+//        int[][] heights = {
+//                {1,2,1,1,1},
+//                {1,2,1,2,1},
+//                {1,2,1,2,1},
+//                {1,2,1,2,1},
+//                {1,1,1,2,1}
+//        };
+
+        int[][] heights = {{1,2,2},{3,8,2},{5,3,5}};
         System.out.println(minimumEffortPath(heights));
     }
 
@@ -25,71 +28,119 @@ public class s1631 {
 //    著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
 
+
+
     public static int minimumEffortPath(int[][] heights) {
         int m = heights.length;
         int n = heights[0].length;
 
-        int[][] minFromStart = new int[m][n];
-
-        // Arrays.fill(minFromStart, Integer.MAX_VALUE);
-
-        for (int i = 0; i < m; i++) {
-            Arrays.fill(minFromStart[i], Integer.MAX_VALUE);
-        }
-
-        minFromStart[0][0] = 0;
-
-        PriorityQueue<State2> q = new PriorityQueue<>((o1, o2) -> {
-            return Integer.compare(o1.distFromStart, o2.distFromStart);
+        PriorityQueue<State1631> q = new PriorityQueue<>((o1, o2) -> {
+            return Integer.compare(o1.maxGapFromStart, o2.maxGapFromStart);
         });
 
-        q.offer(new State2(0,0,0));
+        q.add(new State1631(0,0,0));
 
-        int min_res = Integer.MAX_VALUE;
+        int[][] dir = new int[][]{{-1,0}, {1,0}, {0,-1}, {0,1}};
+
+        int[][] res = new int[m][n];
+        for(int[] tmp : res){
+            Arrays.fill(tmp, Integer.MAX_VALUE);
+        }
+        res[0][0] = 0;
 
         while(!q.isEmpty()){
+            State1631 cur = q.poll();
 
-            State2 cur = q.poll();
-
-            int cur_x = cur.x;
-            int cur_y = cur.y;
-            int cur_distFromStart = cur.distFromStart;
-
-            if(cur_x==m-1 && cur_y==n-1){
-                return minFromStart[m-1][n-1];
-            }
-
-            if(cur_distFromStart > minFromStart[cur_x][cur_y]){
+            if(cur.maxGapFromStart>res[cur.r][cur.c]){
                 continue;
             }
 
-            List<int[]> nei = adj(heights, cur_x, cur_y);
+            for(int i=0; i<4; i++){
+                int newr = cur.r + dir[i][0];
+                int newc = cur.c + dir[i][1];
 
-            for(int[] tmp : nei){
-                int tmp_x = tmp[0];
-                int tmp_y = tmp[1];
-                int gap = Math.abs(heights[cur_x][cur_y] - heights[tmp_x][tmp_y]);
-
-                int max_tmp_distFromStart = Math.max(gap, minFromStart[cur_x][cur_y]);
-
-                if(max_tmp_distFromStart < minFromStart[tmp_x][tmp_y]){
-                    minFromStart[tmp_x][tmp_y] = max_tmp_distFromStart;
-                    q.offer(new State2(tmp_x, tmp_y, max_tmp_distFromStart));
+                if(newr>=0 && newr<m && newc>=0 && newc<n){
+                    if(res[newr][newc]>Math.max(cur.maxGapFromStart, Math.abs(heights[cur.r][cur.c]-heights[newr][newc]))){
+                        res[newr][newc] = Math.max(cur.maxGapFromStart, Math.abs(heights[cur.r][cur.c]-heights[newr][newc]));
+                        q.add(new State1631(newr, newc, res[newr][newc]));
+                    }
                 }
-
 
             }
 
-
         }
 
-        return -1;
-
-
-
+        return res[m-1][n-1];
 
 
     }
+
+
+//    public static int minimumEffortPath(int[][] heights) {
+//        int m = heights.length;
+//        int n = heights[0].length;
+//
+//        int[][] minFromStart = new int[m][n];
+//
+//        // Arrays.fill(minFromStart, Integer.MAX_VALUE);
+//
+//        for (int i = 0; i < m; i++) {
+//            Arrays.fill(minFromStart[i], Integer.MAX_VALUE);
+//        }
+//
+//        minFromStart[0][0] = 0;
+//
+//        PriorityQueue<State2> q = new PriorityQueue<>((o1, o2) -> {
+//            return Integer.compare(o1.distFromStart, o2.distFromStart);
+//        });
+//
+//        q.offer(new State2(0,0,0));
+//
+//        int min_res = Integer.MAX_VALUE;
+//
+//        while(!q.isEmpty()){
+//
+//            State2 cur = q.poll();
+//
+//            int cur_x = cur.x;
+//            int cur_y = cur.y;
+//            int cur_distFromStart = cur.distFromStart;
+//
+//            if(cur_x==m-1 && cur_y==n-1){
+//                return minFromStart[m-1][n-1];
+//            }
+//
+//            if(cur_distFromStart > minFromStart[cur_x][cur_y]){
+//                continue;
+//            }
+//
+//            List<int[]> nei = adj(heights, cur_x, cur_y);
+//
+//            for(int[] tmp : nei){
+//                int tmp_x = tmp[0];
+//                int tmp_y = tmp[1];
+//                int gap = Math.abs(heights[cur_x][cur_y] - heights[tmp_x][tmp_y]);
+//
+//                int max_tmp_distFromStart = Math.max(gap, minFromStart[cur_x][cur_y]);
+//
+//                if(max_tmp_distFromStart < minFromStart[tmp_x][tmp_y]){
+//                    minFromStart[tmp_x][tmp_y] = max_tmp_distFromStart;
+//                    q.offer(new State2(tmp_x, tmp_y, max_tmp_distFromStart));
+//                }
+//
+//
+//            }
+//
+//
+//        }
+//
+//        return -1;
+//
+//
+//
+//
+//
+//    }
 
     public static List<int[]> adj(int[][] matrix, int x, int y){
         int m = matrix.length;
@@ -121,5 +172,16 @@ class State2{
         x = a;
         y = b;
         distFromStart = c;
+    }
+}
+
+class State1631{
+    int r;
+    int c;
+    int maxGapFromStart;
+    State1631(int aa, int bb, int cc){
+        r = aa;
+        c = bb;
+        maxGapFromStart = cc;
     }
 }
