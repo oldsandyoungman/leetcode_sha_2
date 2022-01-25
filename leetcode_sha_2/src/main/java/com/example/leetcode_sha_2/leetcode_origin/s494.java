@@ -3,6 +3,9 @@ package com.example.leetcode_sha_2.leetcode_origin;
 public class s494 {
 
     public static void main(String[] args) {
+        int[] nums = {0,0,0,0,0,0,0,0,1};
+        int target = 1;
+        System.out.println(findTargetSumWays(nums, target));
 
     }
 
@@ -79,7 +82,7 @@ public class s494 {
 
 // 动态规划
 
-    public int findTargetSumWays(int[] nums, int target) {
+    public static int findTargetSumWays(int[] nums, int target) {
         int n = nums.length;
         int sum = 0;
         for(int num : nums){
@@ -93,7 +96,7 @@ public class s494 {
         return bag(nums, new_target);
 
     }
-    public int bag(int[] nums, int target){
+    public static int bag(int[] nums, int target){
         int n = nums.length;
         int[][] dp = new int[n+1][target+1];
         // for(int i=0; i<=target; i++){
