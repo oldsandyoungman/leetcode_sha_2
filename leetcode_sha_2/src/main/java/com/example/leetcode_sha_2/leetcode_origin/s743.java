@@ -91,58 +91,122 @@ public class s743 {
 //    }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//    public static int networkDelayTime(int[][] times, int n, int k) {
+//        List<int[]>[] graph = new LinkedList[n+1];
+//        for(int i=1; i<=n; i++){
+//            graph[i] = new LinkedList<>();
+//        }
+//        for(int[] tmp : times){
+//            int src = tmp[0];
+//            int tar = tmp[1];
+//            int weight = tmp[2];
+//            graph[src].add(new int[]{tar, weight});
+//        }
+//        int[] todist = dijkstra(k, graph);
+//        int res = 0;
+//        for(int i=1; i<=n; i++){
+//            int tmp = todist[i];
+//            if(tmp==Integer.MAX_VALUE){
+//                return -1;
+//            }
+//            res = Math.max(res, tmp);
+//        }
+//        return res;
+//    }
+//
+//    public static int[] dijkstra(int start, List<int[]>[] graph){
+//        int[] todist = new int[graph.length];
+//        Arrays.fill(todist, Integer.MAX_VALUE);
+//        todist[start] = 0;
+//        PriorityQueue<State> pq = new PriorityQueue<>((o1, o2) -> {
+//            return Integer.compare(o1.distFromStart, o2.distFromStart);
+//        });
+//        pq.add(new State(start, 0));
+//        while(!pq.isEmpty()){
+//            State cur = pq.poll();
+//            int curid = cur.id;
+//            int curdistfromstart = cur.distFromStart;
+//            if(curdistfromstart>todist[curid]){
+//                continue;
+//            }
+//            for(int[] neighbours : graph[curid]){
+//                int neighbourid = neighbours[0];
+//                int distfromcurtonei = neighbours[1];
+//                int now = todist[curid] + distfromcurtonei;
+//                if(now<todist[neighbourid]){
+//                    todist[neighbourid] = now;
+//                    pq.offer(new State(neighbourid, now));
+//                }
+//            }
+//        }
+//
+//        return todist;
+//
+//
+//    }
+
+
     public static int networkDelayTime(int[][] times, int n, int k) {
-        List<int[]>[] graph = new LinkedList[n+1];
-        for(int i=1; i<=n; i++){
+
+        k--;
+
+        List<int[]>[] graph = new LinkedList[n];
+        for(int i=0; i<n; i++){
             graph[i] = new LinkedList<>();
         }
+
         for(int[] tmp : times){
-            int src = tmp[0];
-            int tar = tmp[1];
+            int src = tmp[0]-1;
+            int tar = tmp[1]-1;
             int weight = tmp[2];
             graph[src].add(new int[]{tar, weight});
         }
-        int[] todist = dijkstra(k, graph);
-        int res = 0;
-        for(int i=1; i<=n; i++){
-            int tmp = todist[i];
-            if(tmp==Integer.MAX_VALUE){
-                return -1;
-            }
-            res = Math.max(res, tmp);
-        }
-        return res;
-    }
 
-    public static int[] dijkstra(int start, List<int[]>[] graph){
-        int[] todist = new int[graph.length];
-        Arrays.fill(todist, Integer.MAX_VALUE);
-        todist[start] = 0;
-        PriorityQueue<State> pq = new PriorityQueue<>((o1, o2) -> {
-            return Integer.compare(o1.distFromStart, o2.distFromStart);
-        });
-        pq.add(new State(start, 0));
-        while(!pq.isEmpty()){
-            State cur = pq.poll();
-            int curid = cur.id;
-            int curdistfromstart = cur.distFromStart;
-            if(curdistfromstart>todist[curid]){
+        PriorityQueue<State> q = new PriorityQueue<>((o1, o2) -> Integer.compare(o1.distFromStart, o2.distFromStart));
+        q.add(new State(k, 0));
+
+        int[] res = new int[n];
+        Arrays.fill(res, 10001);
+        res[k] = 0;
+
+        while(!q.isEmpty()){
+            State cur = q.poll();
+            int curId = cur.id;
+            int distFromStartToCur = cur.distFromStart;
+
+            if(res[curId]<distFromStartToCur){
                 continue;
             }
-            for(int[] neighbours : graph[curid]){
-                int neighbourid = neighbours[0];
-                int distfromcurtonei = neighbours[1];
-                int now = todist[curid] + distfromcurtonei;
-                if(now<todist[neighbourid]){
-                    todist[neighbourid] = now;
-                    pq.offer(new State(neighbourid, now));
+
+            for(int[] tmp : graph[curId]){
+                int neiId = tmp[0];
+                int distFromCurToNei = tmp[1];
+                if(res[neiId]>distFromStartToCur+distFromCurToNei){
+                    res[neiId] = distFromStartToCur + distFromCurToNei;
+                    q.add(new State(neiId, res[neiId]));
                 }
             }
         }
-
-        return todist;
-
-
+        int result = 0;
+        for(int i=0; i<n; i++){
+            result = Math.max(result, res[i]);
+        }
+        return result==10001?-1:result;
     }
 
 }
