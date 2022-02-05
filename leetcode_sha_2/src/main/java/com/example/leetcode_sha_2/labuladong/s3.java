@@ -12,6 +12,9 @@ public class s3 {
 
     }
 
+    // 0/1背包问题
+    // https://labuladong.gitee.io/algo/3/25/85/
+
     private static int maxVal(int N, int W, int[] wt, int[] val) {
         // dp[i][j]: 前i个物品背包容量为j时，能装的最大价值
         int[][] dp = new int[N+1][W+1];
@@ -37,8 +40,7 @@ public class s3 {
 
     }
 
-    // 0/1背包问题
-    // https://labuladong.gitee.io/algo/3/25/85/
+
 
 
 }
