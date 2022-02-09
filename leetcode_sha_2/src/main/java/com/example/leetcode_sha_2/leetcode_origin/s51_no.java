@@ -22,6 +22,7 @@ public class s51_no {
 //    链接：https://leetcode-cn.com/problems/n-queens
 //    著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
+
 //    public static List<List<String>> solveNQueens(int n) {
 //        res = new ArrayList<>();
 //        List<String> panel = new ArrayList<>();
@@ -91,40 +92,196 @@ public class s51_no {
 //    }
 
 
-//  只判断有没有的剪枝方法
-    public static boolean solveNQueens(int n) {
-        res = new ArrayList<>();
-        List<String> panel = new ArrayList<>();
+////  只判断有没有的剪枝方法
+//    public static boolean solveNQueens(int n) {
+//        res = new ArrayList<>();
+//        List<String> panel = new ArrayList<>();
+//
+//        return backtrack(panel, 0, n);
+//    }
+//    public static List<List<String>> res;
+//    // Q: 有棋子
+//    // .: 没棋子
+//    public static boolean backtrack(List<String> panel, int k, int n){
+//        if (k==n){
+//            res.add(new ArrayList<>(panel));
+//            return true;
+//        }
+//
+//        for (int i = 0; i < n; i++) {
+//
+//            if (isValid(panel, k, i, n)){
+//
+//                StringBuilder sb = new StringBuilder();
+//                sb.append(".".repeat(i));
+//                sb.append('Q');
+//                sb.append(".".repeat(Math.max(0, n - (i + 1))));
+//
+//                panel.add(sb.toString());
+//
+//                boolean tmp = backtrack(panel, k+1, n);
+//
+//                if (tmp) {
+//                    return true;
+//                }
+//
+//                panel.remove(panel.size()-1);
+//            }
+//
+//        }
+//
+//        return false;
+//
+//    }
+//
+//    private static boolean isValid(List<String> panel, int k, int i, int n) {
+//        for (int j = 0; j < k; j++) {
+//            char cur = panel.get(j).charAt(i);
+//            if (cur=='Q'){
+//                return false;
+//            }
+//        }
+//        int cur_l_col = i-1;
+//        int cur_l_row = k-1;
+//        while (cur_l_col>=0 && cur_l_row>=0){
+//            char cur = panel.get(cur_l_row).charAt(cur_l_col);
+//            if (cur=='Q'){
+//                return false;
+//            }
+//            cur_l_row--;
+//            cur_l_col--;
+//        }
+//
+//        int cur_r_col = i+1;
+//        int cur_r_row = k-1;
+//        while (cur_r_col<n && cur_r_row>=0){
+//            char cur = panel.get(cur_r_row).charAt(cur_r_col);
+//            if (cur=='Q'){
+//                return false;
+//            }
+//            cur_r_row--;
+//            cur_r_col++;
+//        }
+//
+//        return true;
+//
+//    }
+//
+//
+//}
 
-        return backtrack(panel, 0, n);
+
+
+// 重新做一遍
+//    public static List<List<String>> solveNQueens(int n) {
+//        res = new ArrayList<>();
+//        LinkedList<String> matrix = new LinkedList<>();
+//
+//        dfs(matrix, 0, n);
+//
+//        return res;
+//
+//    }
+//
+//    public static List<List<String>> res;
+//
+//    public static void dfs(LinkedList<String> matrix, int m, int n) {
+//        if (m == n) {
+//            res.add(new LinkedList<>(matrix));
+//            return;
+//        }
+//
+//        for (int i = 0; i < n; i++) {
+//            if (isValid(matrix, m, i, n)) {
+//                StringBuilder sb = new StringBuilder();
+//                for (int ii = 0; ii < i; ii++) {
+//                    sb.append('.');
+//                }
+//                sb.append('Q');
+//                for (int ii = i + 1; ii < n; ii++) {
+//                    sb.append('.');
+//                }
+//
+//                matrix.addLast(sb.toString());
+//                dfs(matrix, m + 1, n);
+//                matrix.removeLast();
+//
+//            }
+//
+//        }
+//
+//    }
+//
+//    public static boolean isValid(LinkedList<String> matrix, int x, int y, int n) {
+//        for (int i = 0; i < x; i++) {
+//            if (matrix.get(i).charAt(y) == 'Q') {
+//                return false;
+//            }
+//        }
+//
+//        int r = x - 1;
+//        int c = y - 1;
+//        while (r >= 0 && c >= 0) {
+//            if (matrix.get(r).charAt(c) == 'Q') {
+//                return false;
+//            }
+//            r--;
+//            c--;
+//        }
+//
+//        r = x - 1;
+//        c = y + 1;
+//        while (r >= 0 && c < n) {
+//            if (matrix.get(r).charAt(c) == 'Q') {
+//                return false;
+//            }
+//            r--;
+//            c++;
+//        }
+//
+//        return true;
+//
+//    }
+
+
+
+
+// 重新写一遍如何剪枝
+    public static List<String> solveNQueens(int n) {
+
+        LinkedList<String> matrix = new LinkedList<>();
+
+        dfs(matrix, 0, n);
+
+        return res;
+
     }
-    public static List<List<String>> res;
-    // Q: 有棋子
-    // .: 没棋子
-    public static boolean backtrack(List<String> panel, int k, int n){
-        if (k==n){
-            res.add(new ArrayList<>(panel));
+
+    public static List<String> res;
+
+    public static boolean dfs(LinkedList<String> matrix, int m, int n) {
+        if (m == n) {
+            res = new LinkedList<>(matrix);
             return true;
         }
 
         for (int i = 0; i < n; i++) {
-
-            if (isValid(panel, k, i, n)){
-
+            if (isValid(matrix, m, i, n)) {
                 StringBuilder sb = new StringBuilder();
-                sb.append(".".repeat(i));
+                for (int ii = 0; ii < i; ii++) {
+                    sb.append('.');
+                }
                 sb.append('Q');
-                sb.append(".".repeat(Math.max(0, n - (i + 1))));
-
-                panel.add(sb.toString());
-
-                boolean tmp = backtrack(panel, k+1, n);
-
-                if (tmp) {
-                    return true;
+                for (int ii = i + 1; ii < n; ii++) {
+                    sb.append('.');
                 }
 
-                panel.remove(panel.size()-1);
+                matrix.addLast(sb.toString());
+                if(dfs(matrix, m + 1, n)){
+                    return true;
+                }
+                matrix.removeLast();
+
             }
 
         }
@@ -133,38 +290,45 @@ public class s51_no {
 
     }
 
-    private static boolean isValid(List<String> panel, int k, int i, int n) {
-        for (int j = 0; j < k; j++) {
-            char cur = panel.get(j).charAt(i);
-            if (cur=='Q'){
+    public static boolean isValid(LinkedList<String> matrix, int x, int y, int n) {
+        for (int i = 0; i < x; i++) {
+            if (matrix.get(i).charAt(y) == 'Q') {
                 return false;
             }
-        }
-        int cur_l_col = i-1;
-        int cur_l_row = k-1;
-        while (cur_l_col>=0 && cur_l_row>=0){
-            char cur = panel.get(cur_l_row).charAt(cur_l_col);
-            if (cur=='Q'){
-                return false;
-            }
-            cur_l_row--;
-            cur_l_col--;
         }
 
-        int cur_r_col = i+1;
-        int cur_r_row = k-1;
-        while (cur_r_col<n && cur_r_row>=0){
-            char cur = panel.get(cur_r_row).charAt(cur_r_col);
-            if (cur=='Q'){
+        int r = x - 1;
+        int c = y - 1;
+        while (r >= 0 && c >= 0) {
+            if (matrix.get(r).charAt(c) == 'Q') {
                 return false;
             }
-            cur_r_row--;
-            cur_r_col++;
+            r--;
+            c--;
+        }
+
+        r = x - 1;
+        c = y + 1;
+        while (r >= 0 && c < n) {
+            if (matrix.get(r).charAt(c) == 'Q') {
+                return false;
+            }
+            r--;
+            c++;
         }
 
         return true;
 
     }
+
+
+
+
+
+
+
+
+
 
 
 }
