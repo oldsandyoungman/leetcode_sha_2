@@ -20,7 +20,7 @@
 
 ##### 思路
 
-最大的框架是栈，最开始栈的数据结构引入也是类似的问题，框架大致如下：
+最大的框架是栈，最开始栈的数据结构引入也是关于计算的问题，框架大致如下：
 
 > 以符号为划分，将每个部分结果存入栈中，最后累加即可
 
@@ -35,12 +35,15 @@
 ##### 注意点
 
 1. 对于递归，除了遇到左括号重新调用外，遇到右括号，直接进入计算栈内和的过程
-2. 每次的 `if` 判断，并不是一旦进入第一个之后就不再判断，而是要接着判断，这样就不会漏掉 `结尾` 处没把当前的 `num` 放入栈中
+2. 每次的 `if` 判断，并不是一旦进入第一个之后就不再判断，而是要接着判断，这样就不会漏掉 `结尾` 处没把当前的 `num` 放入栈中（注意，并不能内部纯 if-else，但跳出的时候检验num是否为0，非0再加入，因为万一num的结果真的为0呢）
 3. 对于右括号的 `if` ，一定要放到 `符号或结尾` 的 `if` 后面，不然当前的 `num` 就不会计算在内
+3. 左括号的 `if`，里面一定不能加continue，因为如果最后是个右括号结尾，那么这组括号形成的数就没存到队列里
 
 
 
 ##### 代码
+
+1. 东哥版本
 
 ```java
 class Solution {
@@ -114,6 +117,101 @@ class Solution {
         }
         return false;
     }
+
+}
+```
+
+2. 自己版本
+
+```java
+class Solution {
+    public int calculate(String s) {
+        char[] ss = s.toCharArray();
+        LinkedList<Character> l = new LinkedList<>();
+        for(char tmp : ss){
+            if(tmp==' '){
+                continue;
+            }
+            l.addLast(tmp);
+        }
+        return calculate(l);
+    }
+
+
+    public int calculate(LinkedList<Character> l) {
+        
+        ArrayDeque<Integer> q = new ArrayDeque<>();
+
+        int num = 0;
+        char sign = '+';
+
+        while(!l.isEmpty()){
+            char cur = l.removeFirst();
+            if(isDigit(cur)){
+                num = 10*num + cur-'0';
+            }
+            
+            if(!isDigit(cur) || l.isEmpty()){
+
+                if(cur=='('){
+                    num = calculate(l);
+
+                }
+
+                switch(sign){
+                    case '+':
+                        q.addLast(num);
+                        break;
+                    case '-':
+                        q.addLast(-num);
+                        break;
+                    case '*':
+                        q.addLast(q.removeLast()*num);
+                        break;
+                    case '/':
+                        q.addLast(q.removeLast()/num);
+                }
+
+                num = 0;
+                sign = cur;
+
+                if(cur==')'){
+                    break;
+                }
+
+            }
+
+        }
+
+        // if(num!=0){
+        //     switch(sign){
+        //         case '+':
+        //             q.addLast(num);
+        //             break;
+        //         case '-':
+        //             q.addLast(-num);
+        //             break;
+        //         case '*':
+        //             q.addLast(q.removeLast()*num);
+        //             break;
+        //         case '/':
+        //             q.addLast(q.removeLast()/num);
+        //     }
+        // }
+
+        int res = 0;
+        while(!q.isEmpty()){
+            res += q.removeFirst();
+        }
+
+        return res;
+
+    }
+
+    public boolean isDigit(char a){
+        return a>='0'&&a<='9';
+    }
+
 
 }
 ```
