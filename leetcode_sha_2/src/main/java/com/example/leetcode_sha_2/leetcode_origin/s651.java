@@ -5,8 +5,10 @@ import java.util.HashMap;
 public class s651 {
 
     public static void main(String[] args) {
+//        int n = 3;
         int n = 7;
         System.out.println(maxNum(n));
+        System.out.println(maxNum4(n));
     }
 
 //    假设你有一个特殊的键盘包含下面的按键︰
@@ -70,5 +72,47 @@ public class s651 {
 //    }
 
 
+
+//    public static int maxNum3(int n){
+//
+//        int[] dp = new int[n+1];
+//        // base: dp[0]=0;
+//
+//        for(int i=1; i<=n; i++){
+//            int res = dp[i-1]+1;
+//            for(int j=1; j<=i-2; j++){
+//                res = Math.max(res, dp[j]*(i-j-1));
+//            }
+//            dp[i] = res;
+//        }
+//
+//        return dp[n];
+//
+//    }
+
+
+    public static int maxNum4(int n){
+
+        return dp4(0, 0, n);
+
+    }
+
+    // 屏幕上有screen个，剪贴板有clip个，还有n次操作机会，最多能在屏幕上显示的字符个数
+    public static int dp4(int screen, int clip, int n){
+        if(n<=0){
+            return screen;
+        }
+
+        // 直接按一个
+        int res1 = dp4(screen+1, clip, n-1);
+        // ctrl-v一下
+        int res2 = dp4(screen+clip, clip, n-1);
+        // ctrl-a，ctrl-c一下
+        int res3 = dp4(screen, screen, n-2);
+
+        int res = Math.max(Math.max(res1, res2), res3);
+
+        return res;
+    }
 
 }
