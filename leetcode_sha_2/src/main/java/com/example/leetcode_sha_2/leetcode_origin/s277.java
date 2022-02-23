@@ -1,5 +1,7 @@
 package com.example.leetcode_sha_2.leetcode_origin;
 
+import java.util.LinkedList;
+
 public class s277 {
 
     public static void main(String[] args) {
@@ -77,5 +79,73 @@ public class s277 {
     private boolean knows(int can, int other) {
         return true;
     }
+
+    public int findCelebrity2(int n) {
+        if(n<=1){
+            return 0;
+        }
+        LinkedList<Integer> l = new LinkedList<>();
+        for(int i=0; i<n; i++){
+            l.addLast(i);
+        }
+
+        while(l.size()>1){
+            int a = l.removeFirst();
+            int b = l.removeFirst();
+
+            boolean a_knows_b = knows(a, b);
+            boolean b_knows_a = knows(b, a);
+
+            if(a_knows_b && !b_knows_a){
+                l.addFirst(b);
+            }
+            if(!a_knows_b && b_knows_a){
+                l.addFirst(a);
+            }
+        }
+
+        int res = l.removeFirst();
+
+        for(int i=0; i<n; i++){
+            if(i!=res){
+                if(knows(res, i) || !knows(i, res)){
+                    return -1;
+                }
+            }
+        }
+
+        return res;
+
+    }
+
+
+    public int findCelebrity3(int n) {
+        if(n<=1){
+            return 0;
+        }
+        int can = 0;
+        int other = 1;
+
+        while(other<n){
+            if(knows(can, other) && !knows(other, can)){
+                can = other;
+            }
+            other++;
+        }
+
+        for(int i=0; i<n; i++){
+            if(i!=can){
+                if(knows(can, i) || !knows(i, can)){
+                    return -1;
+                }
+            }
+        }
+
+        return can;
+
+
+
+    }
+
 
 }
