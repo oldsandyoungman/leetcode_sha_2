@@ -10,6 +10,10 @@ public class s51_no {
     public static void main(String[] args) {
         System.out.println(solveNQueens(4));
         System.out.println(solveNQueens(1));
+
+        Solution51 s = new Solution51();
+        System.out.println(s.solveNQueens(4));
+        System.out.println("111");
     }
 
 //    n 皇后问题 研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
@@ -330,5 +334,80 @@ public class s51_no {
 
 
 
+
+}
+
+
+class Solution51 {
+    public List<List<String>> solveNQueens(int n) {
+        res = new ArrayList<>();
+        LinkedList<String> path = new LinkedList<>();
+        dfs(path, 0, n);
+        return res;
+    }
+
+    List<List<String>> res;
+
+    public void dfs(LinkedList<String> path, int m, int n){
+        if(m==n){
+            res.add(new ArrayList<>(path));
+            return;
+        }
+
+        for(int i=0; i<m; i++){
+
+            if(isValid(path, m, i, n)){
+
+                StringBuilder sb = new StringBuilder();
+                for(int j=0; j<i; j++){
+                    sb.append(".");
+                }
+                sb.append("Q");
+                for(int j=i+1; j<n; j++){
+                    sb.append(".");
+                }
+
+                path.addLast(sb.toString());
+                dfs(path, m+1, n);
+                path.removeLast();
+
+            }
+
+        }
+
+    }
+
+    public boolean isValid(LinkedList<String> path, int x, int y, int n){
+        for(int i=0; i<x; i++){
+            if(path.get(i).charAt(y)=='Q'){
+                return false;
+            }
+        }
+
+        int row = x-1;
+        int col = y-1;
+
+        while(row>=0 && col>=0){
+            if(path.get(row).charAt(col)=='Q'){
+                return false;
+            }
+            row--;
+            col--;
+        }
+
+        row = x-1;
+        col = y+1;
+
+        while(row>=0 && col<n){
+            if(path.get(row).charAt(col)=='Q'){
+                return false;
+            }
+            row--;
+            col++;
+        }
+
+        return true;
+
+    }
 
 }
