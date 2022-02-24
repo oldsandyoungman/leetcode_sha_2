@@ -25,43 +25,43 @@ public class s694 {
 
 
 
-    public static int numDistinctIslands(int[][] grid){
-        int m = grid.length;
-        int n = grid[0].length;
-
-        HashSet<String> s = new HashSet<>();
-
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (grid[i][j]==1) {
-                    StringBuilder sb = new StringBuilder();
-                    dfs(grid, i, j, sb, 0);
-                    s.add(sb.toString());
-                }
-            }
-        }
-        return s.size();
-
-    }
-
-    public static void dfs(int[][] grid, int i, int j, StringBuilder sb, int dir){
-        int m = grid.length;
-        int n = grid[0].length;
-        if(i<0 || i>=m || j<0 || j>=n){
-            return;
-        }
-        if (grid[i][j]==0) {
-            return;
-        }
-        grid[i][j] = 0;
-        sb.append(dir).append(",");
-
-        dfs(grid, i-1, j, sb, 1);
-        dfs(grid, i+1, j, sb, 2);
-        dfs(grid, i, j-1, sb, 3);
-        dfs(grid, i, j+1, sb, 4);
-
-    }
+//    public static int numDistinctIslands(int[][] grid){
+//        int m = grid.length;
+//        int n = grid[0].length;
+//
+//        HashSet<String> s = new HashSet<>();
+//
+//        for (int i = 0; i < m; i++) {
+//            for (int j = 0; j < n; j++) {
+//                if (grid[i][j]==1) {
+//                    StringBuilder sb = new StringBuilder();
+//                    dfs(grid, i, j, sb, 0);
+//                    s.add(sb.toString());
+//                }
+//            }
+//        }
+//        return s.size();
+//
+//    }
+//
+//    public static void dfs(int[][] grid, int i, int j, StringBuilder sb, int dir){
+//        int m = grid.length;
+//        int n = grid[0].length;
+//        if(i<0 || i>=m || j<0 || j>=n){
+//            return;
+//        }
+//        if (grid[i][j]==0) {
+//            return;
+//        }
+//        grid[i][j] = 0;
+//        sb.append(dir).append(",");
+//
+//        dfs(grid, i-1, j, sb, 1);
+//        dfs(grid, i+1, j, sb, 2);
+//        dfs(grid, i, j-1, sb, 3);
+//        dfs(grid, i, j+1, sb, 4);
+//
+//    }
 
 
 
@@ -109,6 +109,52 @@ public class s694 {
 ////        sb.append(",");
 //
 //    }
+
+
+
+
+    public static int numDistinctIslands(int[][] grid){
+        int m = grid.length;
+        int n = grid[0].length;
+
+        HashSet<String> memo = new HashSet<>();
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j]==1) {
+                    String cur = dfs(grid, i, j, 0);
+                    memo.add(cur);
+                }
+            }
+        }
+
+        return memo.size();
+
+    }
+    // dir:
+    // 0: 起点
+    // 1: 上
+    // 2: 下
+    // 3: 左
+    // 4: 右
+    public static String dfs(int[][] grid, int i, int j, int dir){
+        int m = grid.length;
+        int n = grid[0].length;
+
+        if (i<0 || i>=m || j<0 || j>=n || grid[i][j]==0) {
+            return dir+"";
+        }
+
+        grid[i][j] = 0;
+
+        return dir
+                + dfs(grid, i-1, j, 1)
+                + dfs(grid, i+1, j, 2)
+                + dfs(grid, i, j-1, 3)
+                + dfs(grid, i, j+1, 4);
+
+    }
+
 
 
 }
