@@ -10,6 +10,7 @@ public class s18 {
         int[] nums = {1,0,-1,0,-2,2};
         int target = 0;
         System.out.println(fourSum(nums, target));
+        System.out.println(fourSum2(nums, target));
     }
 
 
@@ -161,5 +162,74 @@ public class s18 {
 //
 //        }
 //    }
+
+    public static List<List<Integer>> fourSum2(int[] nums, int target) {
+        Arrays.sort(nums);
+        return kSum2(nums, 0, target, 4);
+    }
+
+    public static List<List<Integer>> kSum2(int[] nums, int start, int target, int k) {
+
+        if(k>2){
+            int n = nums.length;
+            List<List<Integer>> res = new ArrayList<>();
+            for(int i=start; i<n-k+1; ){
+                int new_target = target-nums[i];
+                List<List<Integer>> tmp = kSum2(nums, i+1, new_target, k-1);
+                for(List<Integer> cur : tmp){
+                    cur.add(nums[i]);
+                    res.add(cur);
+                }
+                i++;
+                while(i<n-k+1 && nums[i]==target-new_target){
+                    i++;
+                }
+            }
+
+            return res;
+
+        }else{
+
+            int left = start;
+            int right = nums.length-1;
+
+            List<List<Integer>> res = new ArrayList<>();
+
+            while(left<right){
+                int l_num = nums[left];
+                int r_num = nums[right];
+                int sum = l_num + r_num;
+                if(sum<target){
+                    left++;
+                    while(left<right && nums[left]==l_num){
+                        left++;
+                    }
+                }else if(sum>target){
+                    right--;
+                    while(left<right && nums[right]==r_num){
+                        right--;
+                    }
+                }else{
+                    List<Integer> tmp = new ArrayList<>();
+                    tmp.add(l_num);
+                    tmp.add(r_num);
+                    res.add(tmp);
+
+                    left++;
+                    while(left<right && nums[left]==l_num){
+                        left++;
+                    }
+                    right--;
+                    while(left<right && nums[right]==r_num){
+                        right--;
+                    }
+
+                }
+            }
+
+            return res;
+        }
+
+    }
 
 }
