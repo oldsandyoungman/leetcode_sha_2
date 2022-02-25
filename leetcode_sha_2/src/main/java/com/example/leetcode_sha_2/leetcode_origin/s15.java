@@ -12,6 +12,7 @@ public class s15 {
 //        int[] nums = {0,0,0};
 //        int[] nums = {1,1,1};
         System.out.println(threeSum(nums));
+        System.out.println(threeSum2(nums));
     }
 
 //    给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有和为 0 且不重复的三元组。
@@ -156,5 +157,68 @@ public class s15 {
 //        return res;
 //
 //    }
+
+    public static List<List<Integer>> threeSum2(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        for(int i=0; i<n-2;){
+            int target = -nums[i];
+            List<List<Integer>> tmp = twoSum2(nums, i+1, target);
+            for(List<Integer> cur : tmp){
+                cur.add(nums[i]);
+                res.add(cur);
+            }
+            i++;
+            while(i<n-2 && nums[i]==-target){
+                i++;
+            }
+        }
+
+        return res;
+
+    }
+
+    public static List<List<Integer>> twoSum2(int[] nums, int start, int target){
+        int left = start;
+        int right = nums.length-1;
+
+        List<List<Integer>> res = new ArrayList<>();
+
+        while(left<right){
+            int l_num = nums[left];
+            int r_num = nums[right];
+            int sum = l_num + r_num;
+            if(sum<target){
+                left++;
+                while(left<right && nums[left]==l_num){
+                    left++;
+                }
+            }else if(sum>target){
+                right--;
+                while(left<right && nums[right]==r_num){
+                    right--;
+                }
+            }else{
+                List<Integer> tmp = new ArrayList<>();
+                tmp.add(l_num);
+                tmp.add(r_num);
+                res.add(tmp);
+
+                left++;
+                while(left<right && nums[left]==l_num){
+                    left++;
+                }
+                right--;
+                while(left<right && nums[right]==r_num){
+                    right--;
+                }
+
+            }
+        }
+
+        return res;
+
+    }
 
 }
