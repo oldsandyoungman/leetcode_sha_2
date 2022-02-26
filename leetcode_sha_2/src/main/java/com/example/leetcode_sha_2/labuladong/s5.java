@@ -1,15 +1,36 @@
 package com.example.leetcode_sha_2.labuladong;
 
 import java.util.Arrays;
+import java.util.TreeSet;
 
 public class s5 {
 
     public static void main(String[] args) {
-        int[] nums = new int[]{3,3,3,3,3};
-//        int[] nums = new int[]{4,1,6,3,2,5};
+//        int[] nums = new int[]{3,3,3,3,3};
+        int[] nums = new int[]{4,1,6,3,2,5};
 //        int[] nums = new int[]{2,1};
         sort(nums);
         System.out.println(Arrays.toString(nums));
+
+
+//        TreeSet<Integer> ss = new TreeSet<>();
+//
+//        TreeSet<int[]> s = new TreeSet<>((o1, o2) -> {
+//           if(o1[0]==o2[0]){
+//               return o2[1]-o1[1];
+//           }else{
+//               return o1[0]-o2[0];
+//           }
+//        });
+//
+//        s.add(new int[]{1,2});
+//        s.add(new int[]{1,3});
+//        s.add(new int[]{2,1});
+//        System.out.println(Arrays.toString(s.first()));
+//        System.out.println(Arrays.toString(s.last()));
+//        System.out.println("111");
+//        s.pollFirst();
+
     }
 
     // 快排
@@ -17,21 +38,26 @@ public class s5 {
 
 
 
+
+
+// 快排重做一遍
     public static void sort(int[] nums){
         sort(nums, 0, nums.length-1);
     }
 
     public static void sort(int[] nums, int lo, int hi){
-        if (lo>=hi) {
+        if(lo>=hi){
             return;
         }
+
         int index = partition(nums, lo, hi);
         sort(nums, lo, index-1);
         sort(nums, index+1, hi);
+
     }
 
     public static int partition(int[] nums, int lo, int hi){
-        if (lo>=hi) {
+        if(lo >= hi){
             return lo;
         }
 
@@ -41,31 +67,25 @@ public class s5 {
 
         while (true) {
 
-            while (nums[++i]<pivot){
-                i++;
-                if(i>=hi){
+            while(nums[++i]<pivot){
+                if (i>=hi) {
                     break;
                 }
             }
-
             while (nums[--j]>pivot) {
-                j--;
                 if (j<=lo) {
                     break;
                 }
             }
-
             if (i>=j) {
                 break;
             }
-
             swap(nums, i, j);
 
         }
-
         swap(nums, lo, j);
-
         return j;
+
     }
 
     public static void swap(int[] nums, int i, int j){
@@ -73,6 +93,81 @@ public class s5 {
         nums[i] = nums[j];
         nums[j] = tmp;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    public static void sort(int[] nums){
+//        sort(nums, 0, nums.length-1);
+//    }
+//
+//    public static void sort(int[] nums, int lo, int hi){
+//        if (lo>=hi) {
+//            return;
+//        }
+//        int index = partition(nums, lo, hi);
+//        sort(nums, lo, index-1);
+//        sort(nums, index+1, hi);
+//    }
+//
+//    public static int partition(int[] nums, int lo, int hi){
+//        if (lo>=hi) {
+//            return lo;
+//        }
+//
+//        int pivot = nums[lo];
+//        int i = lo;
+//        int j = hi+1;
+//
+//        while (true) {
+//
+//            while (nums[++i]<pivot){
+//                i++;
+//                if(i>=hi){
+//                    break;
+//                }
+//            }
+//
+//            while (nums[--j]>pivot) {
+//                j--;
+//                if (j<=lo) {
+//                    break;
+//                }
+//            }
+//
+//            if (i>=j) {
+//                break;
+//            }
+//
+//            swap(nums, i, j);
+//
+//        }
+//
+//        swap(nums, lo, j);
+//
+//        return j;
+//    }
+//
+//    public static void swap(int[] nums, int i, int j){
+//        int tmp = nums[i];
+//        nums[i] = nums[j];
+//        nums[j] = tmp;
+//    }
 
 
 
