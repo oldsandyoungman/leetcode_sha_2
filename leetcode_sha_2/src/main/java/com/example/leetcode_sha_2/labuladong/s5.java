@@ -9,7 +9,8 @@ public class s5 {
 //        int[] nums = new int[]{3,3,3,3,3};
         int[] nums = new int[]{4,1,6,3,2,5};
 //        int[] nums = new int[]{2,1};
-        sort(nums);
+//        sort(nums);
+        sort2(nums, 0, nums.length-1);
         System.out.println(Arrays.toString(nums));
 
 
@@ -93,6 +94,10 @@ public class s5 {
         nums[i] = nums[j];
         nums[j] = tmp;
     }
+
+
+
+
 
 
 
@@ -297,6 +302,57 @@ public class s5 {
 //        nums[i] = nums[j];
 //        nums[j] = temp;
 //    }
+
+
+    public static void sort2(int[] nums, int lo, int hi){
+        if(lo>=hi){
+            return;
+        }
+        int index = partiton2(nums, lo, hi);
+        sort2(nums, lo, index-1);
+        sort2(nums, index+1, hi);
+
+    }
+
+    public static int partiton2(int[] nums, int lo, int hi){
+        if(lo>=hi){
+            return lo;
+        }
+
+        int i = lo;
+        int j = hi+1;
+        int pivot = nums[lo];
+
+        while(true){
+            while(nums[++i]<pivot){
+                if(i>=hi){
+                    break;
+                }
+            }
+            while(nums[--j]>pivot){
+                if(j<=lo){
+                    break;
+                }
+            }
+            if(i>=j){
+                break;
+            }
+
+            swap(nums, i, j);
+
+        }
+
+        swap(nums, lo, j);
+
+        return j;
+
+    }
+
+    public void swap2(int[] nums, int i, int j){
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
 
 
 
