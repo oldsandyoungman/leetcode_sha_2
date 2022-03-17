@@ -5,10 +5,11 @@ import java.util.LinkedList;
 public class sha1 {
 
     public static void main(String[] args) {
-//        String s = "aaabba";
-        String s = "a";
+        String s = "aaabba";
+//        String s = "a";
 
         System.out.println(minNum(s));
+        System.out.println(minNum2(s));
     }
 
     public static int minNum(String src){
@@ -40,6 +41,33 @@ public class sha1 {
         }
 
         return  res;
+
+    }
+
+    public static int minNum2(String src){
+
+        char[] ss = src.toCharArray();
+        int n = ss.length;
+        int right = 0;
+        int left = 0;
+        char tar = ss[0];
+        int max = 0;
+        int count = 0;
+        while(right<n){
+            if(ss[right]==tar){
+                right++;
+            }else{
+                count++;
+                max = Math.max(max, right-left);
+                left = right;
+                tar = ss[left];
+                right++;
+            }
+        }
+        max = Math.max(max, right-left);
+        count++;
+
+        return max*count-n;
 
     }
 
