@@ -12,7 +12,7 @@ public class s15 {
 //        int[] nums = {0,0,0};
 //        int[] nums = {1,1,1};
         System.out.println(threeSum(nums));
-        System.out.println(threeSum2(nums));
+//        System.out.println(threeSum2(nums));
     }
 
 //    给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有和为 0 且不重复的三元组。
@@ -25,62 +25,62 @@ public class s15 {
 
 
 
-    public static List<List<Integer>> threeSum(int[] nums) {
-        int n = nums.length;
-        Arrays.sort(nums);
-        List<List<Integer>> res = new LinkedList<>();
-        int i = 0;
-        while(i<n){
-            int target = -nums[i];
-            List<List<Integer>> tmp = twoSum(nums, target, i+1);
-            for(List<Integer> cur : tmp){
-                cur.add(nums[i]);
-                res.add(new LinkedList<>(cur));
-            }
-            i++;
-            while(i<n && nums[i]==-target){
-                i++;
-            }
-        }
-        return res;
-    }
-
-    public static List<List<Integer>> twoSum(int[] nums, int target, int start){
-        int n = nums.length;
-        int left = start;
-        int right = n-1;
-        List<List<Integer>> res = new LinkedList<>();
-        while(left<=right){
-            int ln = nums[left];
-            int rn = nums[right];
-            int s = ln + rn;
-            if(s>target){
-                right--;
-                while(right>left && nums[right]==rn){
-                    right--;
-                }
-            }else if(s<target){
-                left++;
-                while(right>left && nums[left]==ln){
-                    left++;
-                }
-            }else{
-                List<Integer> tmp = new LinkedList<>();
-                tmp.add(ln);
-                tmp.add(rn);
-                res.add(tmp);
-                left++;
-                right--;
-                while(right>left && nums[left]==ln){
-                    left++;
-                }
-                while(right>left && nums[right]==rn){
-                    right--;
-                }
-            }
-        }
-        return res;
-    }
+//    public static List<List<Integer>> threeSum(int[] nums) {
+//        int n = nums.length;
+//        Arrays.sort(nums);
+//        List<List<Integer>> res = new LinkedList<>();
+//        int i = 0;
+//        while(i<n){
+//            int target = -nums[i];
+//            List<List<Integer>> tmp = twoSum(nums, target, i+1);
+//            for(List<Integer> cur : tmp){
+//                cur.add(nums[i]);
+//                res.add(new LinkedList<>(cur));
+//            }
+//            i++;
+//            while(i<n && nums[i]==-target){
+//                i++;
+//            }
+//        }
+//        return res;
+//    }
+//
+//    public static List<List<Integer>> twoSum(int[] nums, int target, int start){
+//        int n = nums.length;
+//        int left = start;
+//        int right = n-1;
+//        List<List<Integer>> res = new LinkedList<>();
+//        while(left<=right){
+//            int ln = nums[left];
+//            int rn = nums[right];
+//            int s = ln + rn;
+//            if(s>target){
+//                right--;
+//                while(right>left && nums[right]==rn){
+//                    right--;
+//                }
+//            }else if(s<target){
+//                left++;
+//                while(right>left && nums[left]==ln){
+//                    left++;
+//                }
+//            }else{
+//                List<Integer> tmp = new LinkedList<>();
+//                tmp.add(ln);
+//                tmp.add(rn);
+//                res.add(tmp);
+//                left++;
+//                right--;
+//                while(right>left && nums[left]==ln){
+//                    left++;
+//                }
+//                while(right>left && nums[right]==rn){
+//                    right--;
+//                }
+//            }
+//        }
+//        return res;
+//    }
 
 
 
@@ -158,46 +158,112 @@ public class s15 {
 //
 //    }
 
-    public static List<List<Integer>> threeSum2(int[] nums) {
-        int n = nums.length;
+//    public static List<List<Integer>> threeSum2(int[] nums) {
+//        int n = nums.length;
+//        Arrays.sort(nums);
+//        List<List<Integer>> res = new ArrayList<>();
+//        for(int i=0; i<n-2;){
+//            int target = -nums[i];
+//            List<List<Integer>> tmp = twoSum2(nums, i+1, target);
+//            for(List<Integer> cur : tmp){
+//                cur.add(nums[i]);
+//                res.add(cur);
+//            }
+//            i++;
+//            while(i<n-2 && nums[i]==-target){
+//                i++;
+//            }
+//        }
+//
+//        return res;
+//
+//    }
+//
+//    public static List<List<Integer>> twoSum2(int[] nums, int start, int target){
+//        int left = start;
+//        int right = nums.length-1;
+//
+//        List<List<Integer>> res = new ArrayList<>();
+//
+//        while(left<right){
+//            int l_num = nums[left];
+//            int r_num = nums[right];
+//            int sum = l_num + r_num;
+//            if(sum<target){
+//                left++;
+//                while(left<right && nums[left]==l_num){
+//                    left++;
+//                }
+//            }else if(sum>target){
+//                right--;
+//                while(left<right && nums[right]==r_num){
+//                    right--;
+//                }
+//            }else{
+//                List<Integer> tmp = new ArrayList<>();
+//                tmp.add(l_num);
+//                tmp.add(r_num);
+//                res.add(tmp);
+//
+//                left++;
+//                while(left<right && nums[left]==l_num){
+//                    left++;
+//                }
+//                right--;
+//                while(left<right && nums[right]==r_num){
+//                    right--;
+//                }
+//
+//            }
+//        }
+//
+//        return res;
+//
+//    }
+
+
+    public static List<List<Integer>> threeSum(int[] nums) {
         Arrays.sort(nums);
+        int n = nums.length;
         List<List<Integer>> res = new ArrayList<>();
-        for(int i=0; i<n-2;){
-            int target = -nums[i];
-            List<List<Integer>> tmp = twoSum2(nums, i+1, target);
-            for(List<Integer> cur : tmp){
-                cur.add(nums[i]);
-                res.add(cur);
+        for(int i=0; i<n;){
+            int cur = nums[i];
+            int target = -cur;
+            List<List<Integer>> tmp = twoSum(nums, i+1, target);
+            for(List<Integer> tt : tmp){
+                tt.add(nums[i]);
+                res.add(tt);
             }
             i++;
-            while(i<n-2 && nums[i]==-target){
+            while(i<n && nums[i]==cur){
                 i++;
             }
-        }
 
+        }
         return res;
 
     }
 
-    public static List<List<Integer>> twoSum2(int[] nums, int start, int target){
+    public static List<List<Integer>> twoSum(int[] nums, int start, int target) {
+        int n = nums.length;
         int left = start;
-        int right = nums.length-1;
+        int right = n-1;
 
         List<List<Integer>> res = new ArrayList<>();
 
         while(left<right){
             int l_num = nums[left];
             int r_num = nums[right];
-            int sum = l_num + r_num;
-            if(sum<target){
-                left++;
-                while(left<right && nums[left]==l_num){
-                    left++;
-                }
-            }else if(sum>target){
+            int mid = left + (right-left)/2;
+            if(nums[mid]>target){
                 right--;
                 while(left<right && nums[right]==r_num){
                     right--;
+                }
+            }else if(nums[mid]<target){
+                left++;
+                while(left<right && nums[left]==l_num){
+                    left++;
                 }
             }else{
                 List<Integer> tmp = new ArrayList<>();
@@ -205,16 +271,18 @@ public class s15 {
                 tmp.add(r_num);
                 res.add(tmp);
 
-                left++;
-                while(left<right && nums[left]==l_num){
-                    left++;
-                }
                 right--;
                 while(left<right && nums[right]==r_num){
                     right--;
                 }
 
+                left++;
+                while(left<right && nums[left]==l_num){
+                    left++;
+                }
+
             }
+
         }
 
         return res;
