@@ -1,4 +1,4 @@
-package com.example.leetcode_sha_2.wangyi;
+package com.example.leetcode_sha_2.wangyi_leihuo;
 
 import java.util.PriorityQueue;
 import java.util.Scanner;
